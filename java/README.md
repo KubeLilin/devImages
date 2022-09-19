@@ -1,0 +1,21 @@
+# 构建JDK8
+```bash
+docker build . -t kubelilin/jdk:x86_64-alpine-jdk8u345-b01_openj9-0.33.1 --platform=amd64
+```
+
+# 构建JDK17
+```bash
+docker build -f ./Dockerfile_JDK17 -t kubelilin/jdk:x86_64-alpine-openjdk1702 . --platform=amd64
+```
+
+# 镜像使用 例jdk1.8
+```dockerfile
+FROM kubelilin/jdk:x86_64-alpine-jdk8u345-b01_openj9-0.33.1
+WORKDIR /data
+# 将代码复制到容器中
+ADD target/app.jar .
+ENV JAVA_OPTS=""
+ENV PROMETHEUS_OPS="-javaagent:/data/prometheus/jmx_prometheus_javaagent.jar=12345:/data/prometheus/config.yaml"
+# 启动容器时运行的命令
+ENTRYPOINT exec java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom -XX:MaxRAMPercentage=80.0 $JAVA_OPTS $SKYWALKING_OPTIONS $PROMETHEUS_OPS -jar /data/app.jar $SPRING_OPTS
+```
