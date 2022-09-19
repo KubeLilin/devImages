@@ -10,6 +10,9 @@ ENV GO111MODULE=on \
 WORKDIR /publish
 COPY . .
 RUN go build -ldflags="-s -w" -o app .
+
+
+
 # 最终容器, 基础镜像alpine 中包含 tini
 FROM kubelilin/apline:tini-3.16.2 as production
 
