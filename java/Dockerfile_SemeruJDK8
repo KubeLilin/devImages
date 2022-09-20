@@ -1,0 +1,44 @@
+FROM ibm-semeru-runtimes:open-8u345-b01-jdk-jammy
+
+ENV LANG=C.UTF-8 \
+    TZ="Asia/Shanghai" \
+    TINI_VERSION="v0.19.0"
+
+# # Add mirror source
+RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak && \
+    sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list && \
+    sed -i s@/security.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+
+# Install base packages
+RUN apt-get update && apt-get install -y \
+         libidn2-0 \
+         tar \
+         curl \
+         gnupg \
+         netcat \
+         dirmngr \
+         locales \
+         net-tools \
+         fontconfig \
+         ca-certificates && \
+      rm -rf /var/lib/apt/lists/*  
+
+
+# Install skyworking agent
+WORKDIR /data/skyagent/agent
+COPY ./agent /data/skyagent/agent
+
+# Install promethus agent
+WORKDIR /data/prometheus
+COPY ./jmx_prometheus_javaagent-0.17.2.jar ./jmx_prometheus_javaagent.jar
+COPY ./config.yaml ./
+
+# WORKDIR /data/arthas
+# RUN wget https://arthas.gitee.io/arthas-boot.jar
+ADD https://arthas.gitee.io/arthas-boot.jar /data/arthas/arthas-boot.jar 
+
+# Add Tini
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+
+ENTRYPOINT ["tini", "--"]
