@@ -7,6 +7,15 @@ RUN apk update \
         && apk add --no-cache bash \
         bash-doc \
         bash-completion \
+        binutils \
+        zstd \
+        fontconfig \
+        libretls \
+        musl-locales \
+        musl-locales-lang \
+        ttf-dejavu \
+        tzdata \
+        zlib \
         && rm -rf /var/cache/apk/* \
         && /bin/bash
 # 设置时区为上海
