@@ -6,6 +6,7 @@ RUN apk update \
         && apk upgrade \
         && apk add --no-cache bash \
         bash-doc \
+        curl \
         bash-completion \
         binutils \
         zstd \
