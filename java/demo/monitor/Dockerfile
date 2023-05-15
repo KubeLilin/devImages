@@ -1,6 +1,6 @@
-FROM kubelilin/jdk:x86_64-alpine-ibm_semeru-8u345-b01_openj9-0.33.1
+FROM kubelilin/jdk:x86_64-alpine-eclipse-temurin-openjdk1704
 
 
-ADD ./app.jar .
+ADD ./target/app.jar .
 
 ENTRYPOINT exec java -jar app.jar
