@@ -1,4 +1,4 @@
-FROM alpine:3.16.2
+FROM registry.cn-beijing.aliyuncs.com/kubelilin/alpine:3.18.0
 
 ENV TINI_VERSION v0.19.0
 
