@@ -1,4 +1,4 @@
-FROM openjdk8-openj9:x86_64-alpine-jdk8u412-b08_openj9-0.44.0
+FROM adoptopenjdk/openjdk8-openj9:jdk8u412-b08_openj9-0.44.0-alpine
 
 ENV LANG=C.UTF-8 \
     TZ="Asia/Shanghai" \
