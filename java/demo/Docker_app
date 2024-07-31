@@ -1,0 +1,14 @@
+FROM kubelilin/jdk:x86-graalvm-mvn-jdk22 AS builder
+
+WORKDIR /publish
+COPY . .
+RUN mvn clean -DskipTests -Pnative native:compile
+
+# 最终容器, 基础镜像alpine 中包含 tini
+FROM kubelilin/alpine:3.16.2-tini_0.19.0 AS production
+
+
+COPY --from=builder /publish/target/demo1 /application/app
+
+WORKDIR /application
+CMD ["/app"]
