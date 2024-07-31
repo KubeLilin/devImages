@@ -15,15 +15,16 @@ RUN apk add --no-cache tini \
 
       
 #放入公共依赖的文件
-WORKDIR /data/skyagent/agent/agent
-COPY ./agent /data/skyagent/agent/agent
+#WORKDIR /data/skyagent/agent/agent
+#COPY ./agent /data/skyagent/agent/agent
 
 
-WORKDIR /data/prometheus
+#WORKDIR /data/prometheus
 
-COPY ./jmx_prometheus_javaagent-0.17.0.jar ./jmx_prometheus_javaagent-0.12.0.jar
-COPY ./config.yaml ./
+#COPY ./jmx_prometheus_javaagent-0.17.0.jar ./jmx_prometheus_javaagent-0.12.0.jar
+#COPY ./config.yaml ./
 
-WORKDIR /data/arthas
-RUN curl -O https://arthas.aliyun.com/arthas-boot.jar
+#WORKDIR /data/arthas
+#RUN curl -O https://arthas.aliyun.com/arthas-boot.jar
+
 ENTRYPOINT ["tini", "--"]
