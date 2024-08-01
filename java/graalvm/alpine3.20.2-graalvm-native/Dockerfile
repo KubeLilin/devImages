@@ -1,4 +1,4 @@
-FROM registry.cn-beijing.aliyuncs.com/kubelilin/alpine:3.18.0
+FROM alpine:3.20.2
 
 ENV TINI_VERSION v0.19.0
 
@@ -17,8 +17,13 @@ RUN apk update \
         ttf-dejavu \
         tzdata \
         zlib \
+        gcc \
+        g++ \
+        libstdc++ \
+        gcompat \
         && rm -rf /var/cache/apk/* \
         && /bin/bash
+
 # 设置时区为上海
 RUN apk -U add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone \
